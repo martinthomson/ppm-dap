@@ -39,7 +39,7 @@ struct {
 [TODO: Add batch parameters, including min/max batch size, batch time window,
 etc.]
 
-[OPEN ISSUE: Would it be useful if `PAoTask.id` were bigger so that task ids can
+[OPEN ISSUE: Would it be useful if `PATask.id` were bigger so that task ids can
 be more sparse?]
 
 **Helper key configuration.**
