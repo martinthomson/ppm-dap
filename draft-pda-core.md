@@ -18,6 +18,25 @@ author:
 
 informative:
 
+  CB17:
+    title: "Prio: Private, Robust, and Scalable Computation of Aggregate Statistics"
+    date: 2017-03-14
+    target: "https://crypto.stanford.edu/prio/paper.pdf"
+    author:
+      - ins: H. Corrigan-Gibbs
+      - ins: D. Boneh
+
+  BBCp21:
+    title: "Lightweight Techniques for Private Heavy Hitters"
+    date: 2021-01-05
+    target: "https://eprint.iacr.org/2021/017"
+    author:
+      -ins: D. Boneh
+      -ins: E. Boyle
+      -ins: H. Corrigan-Gibbs
+      -ins: N. Gilboa
+      -ins: Y. Ishai
+
 --- abstract
 
 TODO: writeme
@@ -30,22 +49,9 @@ This document describes a framework for specifying protocols for
 privacy-preserving data-aggregation. Each protocol is executed by a large set of
 clients and a small set of servers. The servers' goal is to compute some
 aggregate statistic over the clients' inputs without learning the inputs
-themselves. This is made possible by "distributing trust" among the servers in
-such a way that, as long as at least one of them executes the protocol honestly,
-no input is never seen in the clear by any server.
-
-The goal of this document is to specify a protocol for executing private
-aggregation (PA) tasks. We begin in {{overview}} with an overview and brief
-introduction to the underlying cryptographic techniques. In the next section
-({{pa}}) we specify a generic framework for PA protocols. in {{prio}} we
-describe the framework's instantiation with Prio {{BC17}}, and in {{hits}} we
-describe its instantiation with the "heavy hitters" protocol of Boneh et al.
-{{BBCp21}}.
-
-In section {{security-requirements}} we enumerate the security goals and
-non-goals of our protocol. In section {{operational-requirements}} we list the
-use cases our system needs to support, how it is configured, and any other
-operational constraints for the protocol.
+themselves. This is made possible by distributing the computation among the
+servers in such a way that, as long as at least one of them executes the
+protocol honestly, no input is ever seen in the clear by any server.
 
 ## DISCLAIMER
 
@@ -109,14 +115,13 @@ measurements.
 ## Private aggregation via secret sharing
 
 The main cryptographic tool used for achieving this privacy goal is *additive
-secret sharing*. Rather than send its input in the clear, each client "splits"
+secret sharing*. Rather than send its input in the clear, each client splits
 its measurements into a sequence of *shares* and sends a share to each of the
 aggregators. Additive secret sharing has two important properties:
-- First, it's impossible to deduce the measurement without knowing *all* of the
-  shares.
-- Second, it allows the aggregators to compute the final output by first adding
-  up their measurements shares locally, then combining the results to obtain the
-  final output.
+- It's impossible to deduce the measurement without knowing *all* of the shares.
+- It allows the aggregators to compute the final output by first adding up their
+  measurements shares locally, then combining the results to obtain the final
+  output.
 
 Consider an illustrative example. Suppose there are three clients and two
 aggregators. Each client `i` holds a single measurement in the form of a
@@ -148,7 +153,7 @@ because modular addition is commutative. I.e.,
 
 **Prio.**
 This approach can be used to privately compute any function `F` that can be
-expressed as a function of the sum of the users' inputs. In Prio {{BC17}}, each
+expressed as a function of the sum of the users' inputs. In Prio {{CB17}}, each
 user encodes its measurement as a sequence of elements over some prime field. It
 then splits its input into shares and sends each share to the aggregators. The
 aggregators sum up their input shares. Once all the shares have been aggregated,
@@ -175,9 +180,8 @@ A common PA task that can't be solved efficiently with Prio is the
 possession of a single `n`-bit string, and the goal is to compute the compute
 the set of strings that occur at least `t` times.
 
-[TODO: Provide an overview of the protocol of [BBG+21] and provide some
-intuition about how additive secret sharing is used. Be sure to introduce the
-notion of distributed point functions.]
+[TODO: Provide an overview of the protocol of {{BBCp21}} and provide some
+intuition about how additive secret sharing is used.]
 
 ## Validating inputs in zero knowledge
 
