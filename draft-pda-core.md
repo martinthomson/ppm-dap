@@ -193,16 +193,16 @@ inputs are secret shared. In particular, a malicious client can corrupt the
 computation by submitting random integers instead of a proper secret sharing of
 a valid input.
 
-To solve this problem, each PA protocol in this document specifies a
-*zero-knowledge proof (ZKP) system* that allows the aggregators to verify that
-their shares correspond to as valid input. The system needs to have the
-following security properties (stated informally here; see {{BBCp19}} for a
-formal definition):
+To solve this problem, in each PA protocol, the client generates a
+*zero-knowledge proof (ZKP)* of its input's validity, which the aggregators use
+to verify that their shares correspond to as valid input. The verification
+procedure needs to have the following security properties (stated informally
+here; see {{BBCp19}} for a formal definition):
 1. *Completeness:* The verification procedure always succeeds on valid inputs.
 1. *Soundness:* Except with negligible probability, the verification procedure
    always fails on invalid inputs.
 1. *Zero-knowledge:* The aggregators learn nothing from running the verification
-   protocol beyond the input's validity.
+   procedure beyond the input's validity.
 
 After encoding its measurements as an input to the PA protocol, the client
 generates a *proof* of the input's validity. It then splits the proof into
