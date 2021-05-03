@@ -18,36 +18,6 @@ author:
 
 informative:
 
-  PRIO:
-    title: "Prio: Private, Robust, and Scalable Computation of Aggregate Statistics"
-    date: 2017-03-14
-    target: "https://crypto.stanford.edu/prio/paper.pdf"
-    author:
-      - ins: H. Corrigan-Gibbs
-      - ins: D. Boneh
-
-  BBG+19:
-    title: "Zero-Knowledge Proofs on Secret-Shared Data via Fully Linear PCPs"
-    date: 2019-01-27
-    target: "https://eprint.iacr.org/2019/188"
-    author:
-      -ins: D. Boneh
-      -ins: E. Boyle
-      -ins: H. Corrigan-Gibbs
-      -ins: N. Gilboa
-      -ins: Y. Ishai
-
-  HITS:
-    title: "ightweight Techniques for Private Heavy Hitters"
-    date: 2021-01-05
-    target: "https://eprint.iacr.org/2021/017"
-    author:
-      -ins: D. Boneh
-      -ins: E. Boyle
-      -ins: H. Corrigan-Gibbs
-      -ins: N. Gilboa
-      -ins: Y. Ishai
-
 --- abstract
 
 TODO: writeme
@@ -68,9 +38,9 @@ The goal of this document is to specify a protocol for executing private
 aggregation (PA) tasks. We begin in {{overview}} with an overview and brief
 introduction to the underlying cryptographic techniques. In the next section
 ({{pa}}) we specify a generic framework for PA protocols. in {{prio}} we
-describe the framework's instantiation with Prio {{PRIO}}, and in {{hits}} we
+describe the framework's instantiation with Prio {{BC17}}, and in {{hits}} we
 describe its instantiation with the "heavy hitters" protocol of Boneh et al.
-{{HITS}}.
+{{BBCp21}}.
 
 In section {{security-requirements}} we enumerate the security goals and
 non-goals of our protocol. In section {{operational-requirements}} we list the
@@ -138,10 +108,10 @@ measurements.
 
 ## Private aggregation via secret sharing
 
-The main cryptographic tool we'll use for achieving this privacy goal is
-*additive secret sharing*. Rather than send its input in the clear, each client
-"splits" its measurements into a sequence of *shares* and sends a share to each
-of the aggregators. Additive secret sharing has two important properties:
+The main cryptographic tool used for achieving this privacy goal is *additive
+secret sharing*. Rather than send its input in the clear, each client "splits"
+its measurements into a sequence of *shares* and sends a share to each of the
+aggregators. Additive secret sharing has two important properties:
 - First, it's impossible to deduce the measurement without knowing *all* of the
   shares.
 - Second, it allows the aggregators to compute the final output by first adding
@@ -178,7 +148,7 @@ because modular addition is commutative. I.e.,
 
 **Prio.**
 This approach can be used to privately compute any function `F` that can be
-expressed as a function of the sum of the users' inputs. In Prio {{PRIO}}, each
+expressed as a function of the sum of the users' inputs. In Prio {{BC17}}, each
 user encodes its measurement as a sequence of elements over some prime field. It
 then splits its input into shares and sends each share to the aggregators. The
 aggregators sum up their input shares. Once all the shares have been aggregated,
@@ -201,9 +171,9 @@ data aggregation tasks.
 
 **Hits.**
 A common PA task that can't be solved efficiently with Prio is the
-`t`-*heavy-hitters* problem {{HITS}}. In this setting, each user is in
-possession of an `n`-bit string, and the goal is to compute the compute the set
-of strings that occur at least `t` times.
+`t`-*heavy-hitters* problem {{BBCp21}}. In this setting, each user is in
+possession of a single `n`-bit string, and the goal is to compute the compute
+the set of strings that occur at least `t` times.
 
 [TODO: Provide an overview of the protocol of [BBG+21] and provide some
 intuition about how additive secret sharing is used. Be sure to introduce the
@@ -222,7 +192,7 @@ a valid input.
 To solve this problem, each PA protocol in this document specifies a
 *zero-knowledge proof (ZKP) system* that allows the aggregators to verify that
 their shares correspond to as valid input. The system needs to have the
-following security properties (stated informally here; see {{BBG+19}} for a
+following security properties (stated informally here; see {{BBCp19}} for a
 formal definition):
 1. *Completeness:* The verification procedure always succeeds on valid inputs.
 1. *Soundness:* Except with negligible probability, the verification procedure
