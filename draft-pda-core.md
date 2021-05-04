@@ -195,15 +195,10 @@ computation by submitting random integers instead of a proper secret sharing of
 a valid input.
 
 To solve this problem, in each PA protocol, the client generates a
-*zero-knowledge proof (ZKP)* of its input's validity, which the aggregators use
+zero-knowledge proof of its input's validity that the aggregators use
 to verify that their shares correspond to as valid input. The verification
-procedure needs to have the following security properties (stated informally
-here; see {{BBCp19}} for a formal definition):
-1. *Completeness:* The verification procedure always succeeds on valid inputs.
-1. *Soundness:* Except with negligible probability, the verification procedure
-   always fails on invalid inputs.
-1. *Zero-knowledge:* The aggregators learn nothing from running the verification
-   procedure beyond the input's validity.
+procedure is designed to ensure that the aggregators learn nothing about the
+input beyond its validity.
 
 After encoding its measurements as an input to the PA protocol, the client
 generates a *proof* of the input's validity. It then splits the proof into
